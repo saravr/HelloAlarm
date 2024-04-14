@@ -16,6 +16,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,11 +42,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val myAlarm = MyAlarm(this)
-                    //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        AlarmTest {
+                    AlarmTest(
+                        scheduleAlarm = {
                             myAlarm.schedule(it)
-                        }
-                    //}
+                        },
+                        cancel = {
+                            myAlarm.cancel()
+                        },
+                    )
                 }
             }
         }
@@ -54,11 +58,19 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun AlarmTest(scheduleAlarm: (String) -> Unit) {
+fun AlarmTest(
+    scheduleAlarm: (String) -> Unit,
+    cancel: () -> Unit,
+) {
     var alarmId by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
+    DisposableEffect(Unit) {
+        onDispose {
+            cancel()
+        }
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
