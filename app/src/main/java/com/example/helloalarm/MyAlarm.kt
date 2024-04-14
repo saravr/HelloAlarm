@@ -38,6 +38,7 @@ class MyAlarm(private val context: Context) {
     fun cancel() {
         alarmPendingIntent?.let {
             alarmManager.cancel(it)
+            Log.e("++++", "++++ Alarm canceled")
         }
     }
 }

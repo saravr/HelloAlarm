@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.helloalarm.ui.theme.HelloAlarmTheme
 
@@ -90,6 +91,7 @@ fun AlarmTest(
             ),
         )
         Spacer(modifier = Modifier.height(20.dp))
+
         Button(
             onClick = {
                 keyboardController?.hide()
@@ -99,5 +101,21 @@ fun AlarmTest(
         ) {
             Text("Set Alarm")
         }
+
+        Button(
+            onClick = {
+                keyboardController?.hide()
+                focusManager.clearFocus()
+                cancel()
+            }
+        ) {
+            Text("Cancel")
+        }
     }
+}
+
+@Preview
+@Composable
+fun PreviewAlarmTest() {
+    AlarmTest({}, {})
 }
