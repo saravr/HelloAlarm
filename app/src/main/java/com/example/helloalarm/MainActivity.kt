@@ -4,7 +4,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -42,11 +41,11 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val myAlarm = MyAlarm(this)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         AlarmTest {
                             myAlarm.schedule(it)
                         }
-                    }
+                    //}
                 }
             }
         }
@@ -54,7 +53,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
-@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun AlarmTest(scheduleAlarm: (String) -> Unit) {
     var alarmId by remember { mutableStateOf("") }

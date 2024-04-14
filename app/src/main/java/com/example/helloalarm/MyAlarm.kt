@@ -10,15 +10,11 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 class MyAlarm(private val context: Context) {
     private val alarmManager = context.getSystemService(AlarmManager::class.java)
     private var alarmPendingIntent: PendingIntent? = null
 
-    @RequiresApi(Build.VERSION_CODES.S)
     fun schedule(message: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE &&
             !alarmManager.canScheduleExactAlarms()) {
@@ -28,7 +24,7 @@ class MyAlarm(private val context: Context) {
         val intent = Intent(context, AlarmReceiver::class.java).apply {
             putExtra("EXTRA_MESSAGE", message)
         }
-        val delay = LocalDateTime.now().plusSeconds(9).atZone(ZoneId.systemDefault()).toEpochSecond()*1000L
+        val delay = System.currentTimeMillis() + 10000L
         alarmPendingIntent = PendingIntent.getBroadcast(context, 100, intent,
             FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE)
         alarmManager.setExactAndAllowWhileIdle(
