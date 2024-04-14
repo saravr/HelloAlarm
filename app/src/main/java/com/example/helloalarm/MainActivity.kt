@@ -1,6 +1,6 @@
 package com.example.helloalarm
 
-import android.os.Build
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,11 +28,16 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.example.helloalarm.ui.theme.HelloAlarmTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val intent = Intent(this, MyForegroundService::class.java)
+        ContextCompat.startForegroundService(this, intent)
+
         setContent {
             HelloAlarmTheme {
                 // A surface container using the 'background' color from the theme
